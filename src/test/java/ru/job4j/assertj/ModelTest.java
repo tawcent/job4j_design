@@ -12,7 +12,6 @@ class ModelTest {
         boolean result = model.isCondition();
         assertThat(result).isTrue();
 
-
     }
 
     @Test
