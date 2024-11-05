@@ -31,7 +31,7 @@ class BoxTest {
         assertThat(name).isEqualTo("Cube")
                 .startsWith("C")
                 .endsWith("e");
-    }1
+    }
 
     @Test
     void whenNumberOfVerticesIsZero() {
