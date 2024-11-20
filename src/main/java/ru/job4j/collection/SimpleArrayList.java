@@ -71,7 +71,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
             @Override
             public T next() {
-                checkForModifications();
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
