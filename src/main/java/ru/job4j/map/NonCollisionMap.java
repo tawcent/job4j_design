@@ -61,7 +61,7 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     public Iterator<K> iterator() {
         return new Iterator<>() {
             private int expectedModCount = modCount;
-            private int index = 0; //
+            private int index = 0;
 
             @Override
             public boolean hasNext() {
