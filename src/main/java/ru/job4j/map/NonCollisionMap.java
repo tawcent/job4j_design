@@ -1,13 +1,9 @@
 package ru.job4j.map;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     private static final float LOAD_FACTOR = 0.75f;
-
     private int capacity = 8;
     private int count = 0;
     private int modCount = 0;
@@ -16,12 +12,12 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     @Override
     public boolean put(K key, V value) {
         boolean rsl = false;
-        if (count >= capacity * LOAD_FACTOR) {
+
+        if (capacity * LOAD_FACTOR <= count) {
             expand();
         }
-        int hash = hash(Objects.hashCode(key));
-        int index = indexFor(hash);
 
+        int index = getIndex(key);
         if (table[index] == null) {
             table[index] = new MapEntry<>(key, value);
             count++;
@@ -31,30 +27,56 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         return rsl;
     }
 
+    private int getIndex(K key) {
+        return indexFor(hash(Objects.hashCode(key)));
+    }
+
+    private int hash(int hashCode) {
+        return hashCode ^ (hashCode >>> 16);
+    }
+
+    private int indexFor(int hash) {
+        return (capacity - 1) & hash;
+    }
+
+    private void expand() {
+        capacity *= 2;
+        MapEntry<K, V>[] newTable = new MapEntry[capacity];
+        for (MapEntry<K, V> entry : table) {
+            if (entry != null) {
+                int newIndex = getIndex(entry.key);
+                newTable[newIndex] = entry;
+            }
+        }
+        table = Arrays.copyOf(newTable, capacity);
+    }
+
     @Override
     public V get(K key) {
-        int hash = hash(Objects.hashCode(key));
-        int index = indexFor(hash);
-        MapEntry<K, V> entry = table[index];
-        V rsl = null;
-
-        if (entry != null && Objects.equals(entry.key, key)) {
-            rsl = entry.value;
+        V value = null;
+        int index = getIndex(key);
+        if (table[index] != null) {
+            K foundKey = table[index].key;
+            if (isKeyEqual(key, foundKey)) {
+                value = table[index].value;
+            }
         }
-        return rsl;
+        return value;
+    }
+
+    private boolean isKeyEqual(K key, K foundKey) {
+        return Objects.hashCode(foundKey) == Objects.hashCode(key)
+                && Objects.equals(key, foundKey);
     }
 
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
-        int hash = hash(Objects.hashCode(key));
-        int index = indexFor(hash);
-        MapEntry<K, V> entry = table[index];
-
-        if (entry != null && Objects.equals(entry.key, key)) {
+        int index = getIndex(key);
+        if (table[index] != null && isKeyEqual(key, table[index].key)) {
             table[index] = null;
-            count--;
             modCount++;
+            count--;
             rsl = true;
         }
         return rsl;
@@ -63,21 +85,17 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     @Override
     public Iterator<K> iterator() {
         return new Iterator<>() {
+            private int index;
             private int expectedModCount = modCount;
-            private int index = 0;
-
             @Override
             public boolean hasNext() {
-
-                if (modCount != expectedModCount) {
+                if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-
-                while (index < table.length && table[index] == null) {
+                while (index < capacity && table[index] == null) {
                     index++;
                 }
-
-                return index < table.length;
+                return index < capacity;
             }
 
             @Override
@@ -88,28 +106,6 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
                 return table[index++].key;
             }
         };
-    }
-
-    private int hash(int hashCode) {
-        return hashCode ^ (hashCode >>> 16);
-    }
-
-    private int indexFor(int hash) {
-        return hash & (capacity - 1);
-    }
-
-    private void expand() {
-        capacity *= 2;
-        MapEntry<K, V>[] newTable = new MapEntry[capacity];
-
-        for (MapEntry<K, V> entry : table) {
-            if (entry != null) {
-                int newIndex = indexFor(hash(Objects.hashCode(entry.key)));
-                newTable[newIndex] = entry;
-            }
-        }
-
-        table = newTable;
     }
 
     private static class MapEntry<K, V> {
