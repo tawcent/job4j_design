@@ -25,7 +25,7 @@ public class Config {
                         if (parts.length != 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
                             throw new IllegalArgumentException("Invalid format: " + line);
                         }
-                        values.put(parts[0], parts[1]); // Сохраняем в Map
+                        values.put(parts[0], parts[1]);
                     });
         } catch (IOException e) {
             e.printStackTrace();
