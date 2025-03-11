@@ -22,10 +22,11 @@ class ConfigTest {
     }
 
     @Test
-    void whenPairError() {
-        String path = "data/pair.error.properties";
+    void whenInvalidFormat() {
+        String path = "./data/pair.error.properties";
         Config config = new Config(path);
-        config.load();
-        assertThat(config.value("name")).isEqualTo("value");
+        assertThatThrownBy(config::load)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Invalid format");
     }
 }
