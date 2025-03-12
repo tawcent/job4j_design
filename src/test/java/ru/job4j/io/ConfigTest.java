@@ -29,4 +29,22 @@ class ConfigTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid format");
     }
+
+    @Test
+    void whenLostKey() {
+        String path = "./data/missingPair.properties";
+        Config config = new Config(path);
+        assertThatThrownBy(config::load)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Invalid format");
+    }
+
+    @Test
+    void whenLostSymbol() {
+        String path = "./data/missingSymbol.properties";
+        Config config = new Config(path);
+        assertThatThrownBy(config::load)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Invalid format");
+    }
 }
