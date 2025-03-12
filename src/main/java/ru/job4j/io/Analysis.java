@@ -21,7 +21,11 @@ public class Analysis {
                          serverDown = true;
                      } else if (status.equals("200") || status.equals("300") && serverDown) {
                          if (start != null) {
-                             writer.println(start + ";" + time + ";");
+                             writer.append(start)
+                                     .append(";")
+                                     .append(time)
+                                     .append(":")
+                                     .append(System.lineSeparator());
                              serverDown = false;
                          }
                      }
