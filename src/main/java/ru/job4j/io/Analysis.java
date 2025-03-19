@@ -10,27 +10,24 @@ public class Analysis {
         try (BufferedReader reader = new BufferedReader(new FileReader(source));
              PrintWriter writer = new PrintWriter(new FileWriter(target))) {
 
-                 String line;
-                 while ((line = reader.readLine()) != null) {
-                     String[] parts = line.split(" ");
-                     String status = parts[0];
-                     String time = parts[1];
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(" ");
+                String status = parts[0];
+                String time = parts[1];
 
-                     if ((status.equals("400") || status.equals("500")) && !serverDown) {
-                         start = time;
-                         serverDown = true;
-                     } else if (status.equals("200") || status.equals("300") && serverDown) {
-                         if (start != null) {
-                             writer.append(start)
-                                     .append(";")
-                                     .append(time)
-                                     .append(":")
-                                     .append(System.lineSeparator());
-                             serverDown = false;
-                         }
-                     }
-                 }
-             } catch (IOException e) {
+                if ((status.equals("400") || status.equals("500")) && !serverDown) {
+                    start = time;
+                    serverDown = true;
+                } else if ((status.equals("200") || status.equals("300")) && serverDown) {
+                    writer.append(start)
+                            .append(";")
+                            .append(time)
+                            .append(System.lineSeparator());
+                    serverDown = false;
+                }
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
