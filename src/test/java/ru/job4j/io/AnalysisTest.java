@@ -17,7 +17,7 @@ class AnalysisTest {
     Path tempDir;
 
     @Test
-    void whenServerDown_thenCorrectPeriodWritten() throws IOException {
+    void whenServerDownThenCorrectPeriodWritten() throws IOException {
         Path sourceFile = tempDir.resolve("server.log");
         Path targetFile = tempDir.resolve("target.csv");
 
