@@ -8,8 +8,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static sun.security.util.KeyUtil.validate;
-
 public class Search {
     public static void main(String[] args) throws IOException {
         validate(args);
