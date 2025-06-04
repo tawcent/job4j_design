@@ -3,8 +3,6 @@ package ru.job4j.io;
 import java.util.HashMap;
 import java.util.Map;
 
-import static sun.security.util.KeyUtil.validate;
-
 public class ArgsName {
 
     private final Map<String, String> values = new HashMap<>();
