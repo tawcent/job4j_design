@@ -3,6 +3,8 @@ package ru.job4j.io;
 import java.util.HashMap;
 import java.util.Map;
 
+import static sun.security.util.KeyUtil.validate;
+
 public class ArgsName {
 
     private final Map<String, String> values = new HashMap<>();
@@ -55,10 +57,10 @@ public class ArgsName {
     }
 
     public static void main(String[] args) {
-        ArgsName jvm = ArgsName.of(new String[]{"-Xmx=512", "-encoding=UTF-8"});
+        ArgsName jvm = ArgsName.of(new String[] {"-Xmx=512", "-encoding=UTF-8"});
         System.out.println(jvm.get("Xmx"));
 
-        ArgsName zip = ArgsName.of(new String[]{"-out=project.zip", "-encoding=UTF-8"});
+        ArgsName zip = ArgsName.of(new String[] {"-out=project.zip", "-encoding=UTF-8"});
         System.out.println(zip.get("out"));
     }
 }
