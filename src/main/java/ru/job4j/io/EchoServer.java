@@ -17,6 +17,7 @@ public class EchoServer {
                              new InputStreamReader(socket.getInputStream()))) {
                     String requestLine = input.readLine();
                     System.out.println(requestLine);
+                    String response;
 
                         output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                         if (requestLine.contains("GET /?msg=Hello")) {
@@ -24,8 +25,9 @@ public class EchoServer {
                         } else if (requestLine.contains("GET /?msg=Bye")) {
                             System.out.println("End server work");
                             output.write("End server work on clent".getBytes());
-                            output.flush();
                             server.close();
+                        } else {
+                            output.write("What".getBytes());
                         }
                         output.flush();
                 }
