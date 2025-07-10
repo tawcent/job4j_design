@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d [%t] %-5level %logger{36} - %msg%n"/>
+        <!-- Консольный вывод -->
+        <Console name="CONSOLE_LOG" target="SYSTEM_OUT">
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{ISO8601} %5p %c:%M:%L - %m%n"/>
         </Console>
+
+        <!-- DEBUG и выше — в файл debug.txt -->
+        <File name="FILE_LOG" fileName="logs/debug.txt">
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{ISO8601} %5p %c:%M:%L - %m%n"/>
+        </File>
+
+        <!-- ERROR и выше — в отдельный файл error.log -->
+        <File name="FILE_ERROR_LOG" fileName="logs/error.log">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{ISO8601} %5p %c:%M:%L - %m%n"/>
+        </File>
     </Appenders>
+
     <Loggers>
-        <Root level="debug">
-            <AppenderRef ref="Console"/>
+        <Root level="trace">
+            <AppenderRef ref="CONSOLE_LOG"/>
+            <AppenderRef ref="FILE_LOG"/>
+            <AppenderRef ref="FILE_ERROR_LOG"/>
         </Root>
     </Loggers>
 </Configuration>
