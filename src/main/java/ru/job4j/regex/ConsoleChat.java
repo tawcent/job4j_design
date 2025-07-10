@@ -1,5 +1,8 @@
 package ru.job4j.regex;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +21,7 @@ public class ConsoleChat {
     private final String path;
     private final String botAnswers;
     private final List<String> log = new ArrayList<>();
+    private static final Logger LOG = LoggerFactory.getLogger(ConsoleChat.class.getName());
 
     public ConsoleChat(String path, String botAnswers) {
         this.path = path;
@@ -54,7 +58,7 @@ public class ConsoleChat {
         try {
             Files.write(Paths.get(path), log);
         } catch (IOException e) {
-            System.out.println("Ошибка при сохранении лога: " + e.getMessage());
+            LOG.error("Ошибка при сохранении лога в файл {}", path, e);
         }
     }
 
@@ -63,7 +67,7 @@ public class ConsoleChat {
         try {
             phrases = Files.readAllLines((java.nio.file.Paths.get(botAnswers)));
         } catch (IOException e) {
-            System.out.println("Ошибка при чтении файла: " + e.getMessage());
+            LOG.error("Ошибка при чтении файла {} ", botAnswers, e);
         }
         return phrases;
     }

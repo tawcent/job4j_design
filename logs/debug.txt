@@ -30,3 +30,6 @@
 2025-07-10T23:34:02,985 DEBUG ru.job4j.io.UsageLog4j:main:25 - double d = 3.718345432123456
 2025-07-10T23:34:02,986 DEBUG ru.job4j.io.UsageLog4j:main:26 - char a = A
 2025-07-10T23:34:02,986 DEBUG ru.job4j.io.UsageLog4j:main:27 - boolean bool = true
+2025-07-10T23:41:06,447 ERROR ru.job4j.io.UsageLog4j:main:14 - Exception in log example
+java.lang.Exception: Not supported code
+	at ru.job4j.io.UsageLog4j.main(UsageLog4j.java:12) [classes/:?]
