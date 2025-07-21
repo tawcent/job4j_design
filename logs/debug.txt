@@ -33,3 +33,6 @@
 2025-07-10T23:41:06,447 ERROR ru.job4j.io.UsageLog4j:main:14 - Exception in log example
 java.lang.Exception: Not supported code
 	at ru.job4j.io.UsageLog4j.main(UsageLog4j.java:12) [classes/:?]
+2025-07-21 18:22:19,985 ERROR [main] UsageLog4j - Exception in log example
+java.lang.Exception: Not supported code
+	at ru.job4j.io.UsageLog4j.main(UsageLog4j.java:12)
