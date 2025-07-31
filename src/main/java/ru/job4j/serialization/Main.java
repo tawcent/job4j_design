@@ -19,7 +19,7 @@ public class Main {
                         + "\"name\":Boris,"
                         + "\"statuses\":"
                         + "[\"cat\",\"purrs\",\"eatin\"]"
-                        + "}";1
+                        + "}";
 
         final Person personMod = gson.fromJson(personJson, Person.class);
         System.out.println(personMod);
