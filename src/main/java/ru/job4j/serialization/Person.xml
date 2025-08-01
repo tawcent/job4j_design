@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person sex="true" age="11">
+    <name>Boris</name>
+    <statuses>
+        <status>purrs</status>
+        <status>eatin</status>
+    </statuses>
+</person>
