@@ -1,27 +1,32 @@
 package ru.job4j.serialization;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.util.ISO8601Utils;
+import jakarta.xml.bind.*;
+
+import java.io.StringReader;
+import java.io.StringWriter;
 
 public class Main {
-    public static void main(String[] args) {
-        final Person person = new Person(true, 11, "Boris",
-                new String[]{"purrs", "eatin"});
+    public static void main(String[] args) throws Exception {
+        Person person = new Person(true, 11, "Boris", new String[]{"purrs", "eatin"});
 
-        final Gson gson = new GsonBuilder().create();
-        System.out.println(gson.toJson(person));
+        JAXBContext context = JAXBContext.newInstance(Person.class);
 
-        final String personJson =
-                "{"
-                        + "\"sex\":true,"
-                        + "\"age\":11,"
-                        + "\"name\":Boris,"
-                        + "\"statuses\":"
-                        + "[\"cat\",\"purrs\",\"eatin\"]"
-                        + "}";
+        // Сериализация
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-        final Person personMod = gson.fromJson(personJson, Person.class);
-        System.out.println(personMod);
+        String xml;
+        try (StringWriter writer = new StringWriter()) {
+            marshaller.marshal(person, writer);
+            xml = writer.toString();
+            System.out.println("Serialized XML:\n" + xml);
+        }
+
+        // Десериализация
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        try (StringReader reader = new StringReader(xml)) {
+            Person restored = (Person) unmarshaller.unmarshal(reader);
+            System.out.println("Deserialized object:\n" + restored);
+        }
     }
 }
