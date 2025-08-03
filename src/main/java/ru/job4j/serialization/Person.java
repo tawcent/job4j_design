@@ -3,23 +3,27 @@ package ru.job4j.serialization;
 import jakarta.xml.bind.annotation.*;
 import java.util.Arrays;
 
-@XmlRootElement(name = "person")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Person {
 
-    @XmlAttribute
     private boolean sex;
-
-    @XmlAttribute
     private int age;
-
     private String name;
-
-    @XmlElementWrapper(name = "statuses")
-    @XmlElement(name = "status")
     private String[] statuses;
 
-    public Person() {
+    public boolean isSex() {
+        return sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String[] getStatuses() {
+        return statuses;
     }
 
     public Person(boolean sex, int age, String name, String[] statuses) {
