@@ -6,7 +6,7 @@ create table departaments (
 create table employyes(
     id serial primary key,
     name varchar(255) not null,
-    salary int,
+    salary int not null,
     departament_id int references departaments(id)
 );
 
